@@ -29,7 +29,7 @@ public partial class @DriverControls : IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""DriveForward"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""99ed40a7-a594-43dd-9335-310e29334636"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -38,7 +38,7 @@ public partial class @DriverControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""DriveBackward"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""81c16141-2864-4dce-942a-f01237d0028f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -62,6 +62,15 @@ public partial class @DriverControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Brake"",
+                    ""type"": ""Button"",
+                    ""id"": ""6dd5ad26-e32d-49b1-9799-6ebbefa7b631"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -69,7 +78,18 @@ public partial class @DriverControls : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""f65001f0-67a6-4146-a9f4-4e1480263510"",
                     ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": ""Hold(duration=0.1,pressPoint=0.1)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DriveForward"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b2c15bf1-e1c7-4f69-8b05-a560c0ec1d3e"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""DriveForward"",
@@ -80,7 +100,18 @@ public partial class @DriverControls : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""74107925-b1e0-49d0-a00e-cf807937b91e"",
                     ""path"": ""<Gamepad>/leftTrigger"",
-                    ""interactions"": ""Hold(duration=0.1,pressPoint=0.1)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DriveBackward"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5483cc10-7ff5-4192-885f-5751025bd21d"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""DriveBackward"",
@@ -99,6 +130,39 @@ public partial class @DriverControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""0484b46b-8598-4c15-a9fe-f9b3e7a93651"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Steer"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""520307c7-310b-4348-b84d-0abf6ae0a0f5"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Steer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""b23a9a48-c3e6-4970-82f4-b913997b938f"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Steer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""f592916f-0a58-4df0-8038-50cbc317002f"",
                     ""path"": ""<DualSenseGamepadHID>/rightStickPress"",
@@ -106,6 +170,17 @@ public partial class @DriverControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5ae2e90d-810b-493e-99c9-76e03c888283"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Brake"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -120,6 +195,7 @@ public partial class @DriverControls : IInputActionCollection2, IDisposable
         m_Gameplay_DriveBackward = m_Gameplay.FindAction("DriveBackward", throwIfNotFound: true);
         m_Gameplay_Steer = m_Gameplay.FindAction("Steer", throwIfNotFound: true);
         m_Gameplay_Camera = m_Gameplay.FindAction("Camera", throwIfNotFound: true);
+        m_Gameplay_Brake = m_Gameplay.FindAction("Brake", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -183,6 +259,7 @@ public partial class @DriverControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_DriveBackward;
     private readonly InputAction m_Gameplay_Steer;
     private readonly InputAction m_Gameplay_Camera;
+    private readonly InputAction m_Gameplay_Brake;
     public struct GameplayActions
     {
         private @DriverControls m_Wrapper;
@@ -191,6 +268,7 @@ public partial class @DriverControls : IInputActionCollection2, IDisposable
         public InputAction @DriveBackward => m_Wrapper.m_Gameplay_DriveBackward;
         public InputAction @Steer => m_Wrapper.m_Gameplay_Steer;
         public InputAction @Camera => m_Wrapper.m_Gameplay_Camera;
+        public InputAction @Brake => m_Wrapper.m_Gameplay_Brake;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -212,6 +290,9 @@ public partial class @DriverControls : IInputActionCollection2, IDisposable
                 @Camera.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera;
                 @Camera.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera;
                 @Camera.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCamera;
+                @Brake.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBrake;
+                @Brake.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBrake;
+                @Brake.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBrake;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -228,6 +309,9 @@ public partial class @DriverControls : IInputActionCollection2, IDisposable
                 @Camera.started += instance.OnCamera;
                 @Camera.performed += instance.OnCamera;
                 @Camera.canceled += instance.OnCamera;
+                @Brake.started += instance.OnBrake;
+                @Brake.performed += instance.OnBrake;
+                @Brake.canceled += instance.OnBrake;
             }
         }
     }
@@ -238,5 +322,6 @@ public partial class @DriverControls : IInputActionCollection2, IDisposable
         void OnDriveBackward(InputAction.CallbackContext context);
         void OnSteer(InputAction.CallbackContext context);
         void OnCamera(InputAction.CallbackContext context);
+        void OnBrake(InputAction.CallbackContext context);
     }
 }

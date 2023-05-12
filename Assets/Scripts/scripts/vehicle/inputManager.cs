@@ -15,6 +15,8 @@ public class inputManager : MonoBehaviour{
     public float GasAmountF;
     public float GasAmountB;
 
+    public bool controlsEnabled = false;
+
     private void Awake()
     {
         controls = new DriverControls();
@@ -31,8 +33,19 @@ public class inputManager : MonoBehaviour{
 
     void Update()
     {
-        //keyboard();
-        controller();
+        keyboard();
+        //controller();
+
+        if (controlsEnabled == true)
+        {
+            //Gas Forward
+            controls.Gameplay.DriveForward.performed += ctx => GasAmountF = ctx.ReadValue<float>();
+            controls.Gameplay.DriveForward.canceled += ctx => GasAmountF = 0.0f;
+
+            //Gas Backward
+            controls.Gameplay.DriveBackward.performed += ctx => GasAmountB = ctx.ReadValue<float>();
+            controls.Gameplay.DriveBackward.canceled += ctx => GasAmountB = 0.0f;
+        }
     }
 
     public void keyboard () {
@@ -59,11 +72,13 @@ public class inputManager : MonoBehaviour{
     void OnEnable()
     {
         controls.Gameplay.Enable();
+        controlsEnabled = true;
     }
 
     void OnDisable()
     {
         controls.Gameplay.Disable();
+        controlsEnabled = false;
     }
 
 

@@ -72,7 +72,7 @@ public class controller : MonoBehaviour{
 
         addDownForce();
         steerVehicle();
-        calculateEnginePower();
+        
         friction();
         Audio();
         if(isAutomatic)
@@ -84,7 +84,8 @@ public class controller : MonoBehaviour{
     }
 
     void FixedUpdate(){
-        activateLights();    
+        activateLights();
+        calculateEnginePower();
     }
 
 
@@ -133,6 +134,7 @@ public class controller : MonoBehaviour{
         
         engineLoad = Mathf.Lerp(engineLoad,vertical - ((engineRPM - 1000) / maxRPM ),(EngineSmoothTime * 10) * Time.deltaTime);
 
+        
         moveVehicle();
     }
 
@@ -213,9 +215,12 @@ public class controller : MonoBehaviour{
         }
         else{
             for (int i = 0; i < wheels.Length; i++){
-                //wheels[i].motorTorque =  (vertical == 0) ? 0 : totalPower / wheels.Length;
+                //wheels[i].motorTorque =  (IM.GasAmountF == 0) ? 0 : totalPower / wheels.Length;
 
-                wheels[i].motorTorque = (IM.GasAmountB > 0.0f && vertical < 0.0f) ? -((totalPower / wheels.Length) / 3) : (IM.GasAmountF > 0) ? totalPower / wheels.Length : totalPower / wheels.Length;
+
+                wheels[i].motorTorque = (IM.GasAmountF == 0.0f && IM.GasAmountB == 0.0f) ? 0 : (IM.GasAmountF > 0.0f) ? (totalPower / wheels.Length) * IM.GasAmountF : (IM.GasAmountB > 0.0f) ? -(totalPower / wheels.Length) *IM.GasAmountB : 0;
+
+                //wheels[i].motorTorque = (IM.GasAmountB > 0.0f && vertical < 0.0f) ? -((totalPower / wheels.Length) / 5) : (IM.GasAmountF > 0) ? totalPower / wheels.Length : totalPower / wheels.Length;
 
                 //if (vertical > 0 && IM.GasAmountF > 0.0f)
                 //{
@@ -243,7 +248,7 @@ public class controller : MonoBehaviour{
                 brakPower = 5;
             } else{
                 if(vertical < 0 && KPH > 1 && !reverse)
-                    brakPower =  (wheelSlip[i] <= 1) ? brakPower + -vertical * 20 : brakPower > 0 ? brakPower  + vertical * 20 : 0 ;
+                    brakPower =  (wheelSlip[i] <= 1) ? brakPower + IM.GasAmountB * 20 : brakPower > 0 ? brakPower  + IM.GasAmountF * 20 : 0 ;
                 else 
                     brakPower = 0;
             }
@@ -262,7 +267,8 @@ public class controller : MonoBehaviour{
 
     private void steerVehicle(){
 
-        vertical = IM.vertical;
+        vertical = (IM.GasAmountF > 0.0f) ? IM.GasAmountF : (IM.GasAmountB > 0.0f) ? IM.GasAmountB : 0;
+        //vertical = IM.GasAmountF;
         horizontal = Mathf.Lerp(horizontal , IM.horizontal , (IM.horizontal != 0) ? 5 * Time.deltaTime : 5 * 2 * Time.deltaTime);
 
         finalTurnAngle = (radius > 5 ) ? radius : 5  ;
