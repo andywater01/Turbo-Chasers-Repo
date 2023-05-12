@@ -199,6 +199,8 @@ public class controller : MonoBehaviour{
     }
 
     private void moveVehicle(){
+        
+
         if(drive == driveType.rearWheelDrive){
             for (int i = 2; i < wheels.Length; i++){
                 wheels[i].motorTorque = (vertical == 0) ? 0 : totalPower / (wheels.Length - 2) ;
@@ -211,10 +213,30 @@ public class controller : MonoBehaviour{
         }
         else{
             for (int i = 0; i < wheels.Length; i++){
-                wheels[i].motorTorque =  (vertical == 0) ? 0 : totalPower / wheels.Length;
+                //wheels[i].motorTorque =  (vertical == 0) ? 0 : totalPower / wheels.Length;
+
+                wheels[i].motorTorque = (IM.GasAmountB > 0.0f && vertical < 0.0f) ? -((totalPower / wheels.Length) / 3) : (IM.GasAmountF > 0) ? totalPower / wheels.Length : totalPower / wheels.Length;
+
+                //if (vertical > 0 && IM.GasAmountF > 0.0f)
+                //{
+                //    wheels[i].motorTorque = totalPower / wheels.Length;
+
+                //}
+
+                //else if (vertical < 0 && IM.GasAmountB > 0.0f)
+                //{
+                //    wheels[i].motorTorque = totalPower / wheels.Length;
+                //}
+
+                //else
+                //{
+                //    wheels[i].motorTorque = 0.0f;
+                //}
+
             }
         }
 
+        
 
         for (int i = 0; i < wheels.Length; i++){
             if(KPH <= 1 && KPH >= -1 && vertical == 0){
@@ -233,6 +255,7 @@ public class controller : MonoBehaviour{
         rigidbody.angularDrag = (KPH > 100)? KPH / 100 : 0;
         rigidbody.drag = dragAmount + (KPH / 40000) ;
 
+        
         KPH = rigidbody.velocity.magnitude * 3.6f;
 
     }

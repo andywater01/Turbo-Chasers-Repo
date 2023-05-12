@@ -39,7 +39,7 @@ public class wheelsManager : MonoBehaviour{
         SidewaysFriction = ForwardFriction = Friction;
         controller.ForwardStifness = ForwardFriction;
         controller.SidewaysStifness = SidewaysFriction;
-        //animateWheels();   
+        animateWheels();   
 
     }
 
